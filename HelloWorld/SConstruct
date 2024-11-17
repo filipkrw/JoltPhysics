@@ -1,9 +1,9 @@
 import os
 
 
-def find_src_files(root_dir):
+def find_src_files(dir):
     src_files = []
-    for dirpath, _, filenames in os.walk(root_dir):
+    for dirpath, _, filenames in os.walk(dir):
         for filename in filenames:
             if filename.endswith('.cpp'):
                 src_files.append(os.path.join(dirpath, filename))
@@ -42,13 +42,13 @@ env.Append(CPPDEFINES=[
 ])
 
 # Add Jolt header files to the include path
-env.Append(CPPPATH=['.'])
+env.Append(CPPPATH=['..'])
 
 # Collect all source files from the Jolt directory
-src_files = find_src_files('Jolt')
+src_files = find_src_files('../Jolt')
 
 # Add Hello World example source files
-src_files.append('test_src/main.cpp')
+src_files.append('HelloWorld.cpp')
 
 # Build the static library
-env.Program(target='out/test', source=src_files)
+env.Program(target='HelloWorld', source=src_files)
