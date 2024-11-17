@@ -6,3 +6,7 @@
 /snapshot.bin
 /*.jor
 /detlog.txt
+*.obj
+.sconsign.dblite
+*.pdb
+/out
