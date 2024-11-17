@@ -1,14 +1,25 @@
 import os
 
+
+def find_src_files(root_dir):
+    src_files = []
+    for dirpath, _, filenames in os.walk(root_dir):
+        for filename in filenames:
+            if filename.endswith('.cpp'):
+                src_files.append(os.path.join(dirpath, filename))
+    return src_files
+
+
 env = Environment()
 
 # Set compiler flags
 env.Append(CXXFLAGS=[
     '/Zc:__cplusplus', '/Gm-', '/MP', '/nologo', '/diagnostics:classic',
     '/FC', '/fp:except-', '/Zc:inline', '/Zi', '/GR-', '/EHsc-', '/wd4577',
-    '/Wall', '/GS-', '/Gy', '/O2', '/Oi', '/Ot', '/arch:AVX2'
+    '/Wall', '/WX', '/GS-', '/Gy', '/O2', '/Oi', '/Ot', '/arch:AVX2'
 ])
 
+# Set the C++17 standard
 env.Append(CXXFLAGS=['/std:c++17'])
 
 # Set preprocessor definitions
@@ -30,17 +41,14 @@ env.Append(CPPDEFINES=[
     'JPH_ENABLE_OBJECT_STREAM'
 ])
 
+# Add Jolt header files to the include path
 env.Append(CPPPATH=['.'])
 
-# Collect all source files from the 'Jolt' directory
-src_files = []
-for dirpath, _, filenames in os.walk('Jolt'):
-    for filename in filenames:
-        if filename.endswith('.cpp'):
-            src_files.append(os.path.join(dirpath, filename))
+# Collect all source files from the Jolt directory
+src_files = find_src_files('Jolt')
 
+# Add Hello World example source files
 src_files.append('test_src/main.cpp')
 
 # Build the static library
-# env.StaticLibrary(target='joltey', source=src_files)
 env.Program(target='out/test', source=src_files)
