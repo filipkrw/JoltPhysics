@@ -10,3 +10,4 @@
 /Assets/Shaders/MTL/*.metallib
 /Jolt/**/*.obj
 /Jolt/**/*.os
+/Jolt/**/*.o
